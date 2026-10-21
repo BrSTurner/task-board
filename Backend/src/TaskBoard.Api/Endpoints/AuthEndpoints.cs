@@ -20,6 +20,23 @@ public static class AuthEndpoints
             .Produces<ApiResult<UserDto>>(StatusCodes.Status201Created)
             .ProducesApiError(StatusCodes.Status409Conflict);
 
+        group.MapPost("/login", async (LoginUserRequest request, LoginUser loginUser, CancellationToken cancellationToken) =>
+                (await loginUser.ExecuteAsync(request, cancellationToken)).ToHttpResult(ApiResults.Ok))
+            .AllowAnonymous()
+            .WithValidation<LoginUserRequest>()
+            .WithName("Login")
+            .WithSummary("Exchanges email and password for a bearer access token.")
+            .Produces<ApiResult<LoginResponse>>()
+            .ProducesApiError(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/me", async (GetCurrentUser getCurrentUser, CancellationToken cancellationToken) =>
+                (await getCurrentUser.ExecuteAsync(cancellationToken)).ToHttpResult(ApiResults.Ok))
+            .RequireAuthorization()
+            .WithName("GetCurrentUser")
+            .WithSummary("Returns the authenticated user.")
+            .Produces<ApiResult<UserDto>>()
+            .ProducesApiError(StatusCodes.Status401Unauthorized);
+
         return app;
     }
 }

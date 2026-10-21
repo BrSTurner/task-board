@@ -14,7 +14,12 @@ public sealed class LoginUserRequest
 
 public sealed class LoginUserRequestValidator : AbstractValidator<LoginUserRequest>
 {
-    // TDD stub — rules are added in the GREEN step.
+    public LoginUserRequestValidator()
+    {
+        // Presence only: applying the registration policy here would reveal password rules for existing accounts.
+        RuleFor(x => x.Email).Must(value => !string.IsNullOrWhiteSpace(value)).WithMessage("Email is required");
+        RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required");
+    }
 }
 
 public sealed class LoginResponse

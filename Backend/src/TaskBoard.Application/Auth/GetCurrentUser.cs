@@ -5,9 +5,10 @@ namespace TaskBoard.Application.Auth;
 
 public sealed class GetCurrentUser(IUserRepository users, ICurrentUser currentUser)
 {
-    public Task<Result<UserDto>> ExecuteAsync(CancellationToken cancellationToken)
+    public async Task<Result<UserDto>> ExecuteAsync(CancellationToken cancellationToken)
     {
-        _ = (users, currentUser); // TDD stub
-        return Task.FromResult<Result<UserDto>>(Error.Conflict("Stub", "TDD stub"));
+        // A token can outlive its user row (e.g. the local database was reset), so check it still exists.
+        var user = await users.GetByIdAsync(currentUser.UserId, cancellationToken);
+        return user is null ? AuthErrors.SessionUserNotFound : UserDto.From(user);
     }
 }

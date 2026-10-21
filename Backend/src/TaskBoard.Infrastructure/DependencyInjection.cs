@@ -2,6 +2,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using TaskBoard.Application.Abstractions;
 using TaskBoard.Infrastructure.Authentication;
 using TaskBoard.Infrastructure.Persistence;
@@ -20,6 +21,10 @@ public static class DependencyInjection
         services.AddDbContext<TaskBoardDbContext>(options => options.UseSqlite(connectionString));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddSingleton<IPasswordService, PasswordService>();
+
+        services.AddOptions<JwtOptions>().Bind(configuration.GetSection(JwtOptions.SectionName)).ValidateOnStart();
+        services.AddSingleton<IValidateOptions<JwtOptions>, JwtOptionsValidator>();
+        services.AddSingleton<ITokenService, JwtTokenService>();
 
         return services;
     }

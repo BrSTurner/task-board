@@ -49,6 +49,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
             BadHttpRequestException bad => (bad.StatusCode, bad.StatusCode == StatusCodes.Status400BadRequest
                 ? new ApiError { Code = "BadRequest", Message = "The request body is malformed or contains invalid values." }
                 : ErrorHandling.ForStatus(bad.StatusCode)),
+            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, ErrorHandling.ForStatus(StatusCodes.Status401Unauthorized)),
             _ => (StatusCodes.Status500InternalServerError, ErrorHandling.ForStatus(StatusCodes.Status500InternalServerError)),
         };
 

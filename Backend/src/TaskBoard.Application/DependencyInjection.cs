@@ -12,6 +12,8 @@ public static class DependencyInjection
 
         // Use cases are plain classes (no interface per use case, no mediator).
         services.AddScoped<RegisterUser>();
+        services.AddScoped<LoginUser>();
+        services.AddScoped<GetCurrentUser>();
 
         return services;
     }
