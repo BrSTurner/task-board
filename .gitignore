@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+
+# SQLite databases (local demo data)
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Node / Angular
+node_modules/
+.angular/
+dist/
+coverage/
+
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+Thumbs.db
+.DS_Store
