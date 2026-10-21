@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="TaskBoard.Infrastructure.Tests" />
+  </ItemGroup>
+
 </Project>
