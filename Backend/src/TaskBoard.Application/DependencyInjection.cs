@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TaskBoard.Application.Auth;
+using TaskBoard.Application.Tasks;
 
 namespace TaskBoard.Application;
 
@@ -14,6 +15,13 @@ public static class DependencyInjection
         services.AddScoped<RegisterUser>();
         services.AddScoped<LoginUser>();
         services.AddScoped<GetCurrentUser>();
+
+        services.AddScoped<GetMyTasks>();
+        services.AddScoped<GetTaskById>();
+        services.AddScoped<CreateTask>();
+        services.AddScoped<UpdateTask>();
+        services.AddScoped<ChangeTaskStatus>();
+        services.AddScoped<DeleteTask>();
 
         return services;
     }
