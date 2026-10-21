@@ -35,6 +35,21 @@ public sealed class ErrorEnvelopeTests(TaskBoardApiFactory factory)
         Assert.Equal("ServerError", error.GetProperty("code").GetString());
     }
 
+    [Fact]
+    public async Task Domain_invariant_violation_that_escapes_validation_returns_400_envelope()
+    {
+        var client = factory.WithWebHostBuilder(builder => builder.ConfigureServices(services =>
+                services.AddSingleton<IStartupFilter, ThrowingEndpointStartupFilter>()))
+            .CreateClient();
+
+        var response = await client.GetAsync("/__test/domain");
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var error = await ReadErrorAsync(response);
+        Assert.Equal("DomainRule", error.GetProperty("code").GetString());
+        Assert.Equal("Title is required.", error.GetProperty("message").GetString());
+    }
+
     private static async Task<JsonElement> ReadErrorAsync(HttpResponseMessage response, string? body = null)
     {
         Assert.Equal("application/json", response.Content.Headers.ContentType?.MediaType);
@@ -50,6 +65,7 @@ public sealed class ErrorEnvelopeTests(TaskBoardApiFactory factory)
             next(app);
             // Appended after the real pipeline so the exception bubbles through the app's exception handler.
             app.Map("/__test/throw", b => b.Run(_ => throw new InvalidOperationException("secret internal detail")));
+            app.Map("/__test/domain", b => b.Run(_ => throw new TaskBoard.Domain.Exceptions.DomainException("Title is required.")));
         };
     }
 }
