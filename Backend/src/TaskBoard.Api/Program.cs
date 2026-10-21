@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapPublicEndpoints();
 app.MapAuthEndpoints();
+app.MapTaskEndpoints();
 
 app.Run();
 

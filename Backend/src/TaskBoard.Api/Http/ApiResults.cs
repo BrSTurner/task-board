@@ -44,11 +44,12 @@ internal static class ApiResults
         TypedResults.Json(ApiResult.Failure(error), statusCode: statusCode);
 
     /// <summary>Declares envelope error responses in OpenAPI (handlers return <see cref="IResult"/>, so metadata is explicit).</summary>
-    public static RouteHandlerBuilder ProducesApiError(this RouteHandlerBuilder builder, params int[] statusCodes)
+    public static TBuilder ProducesApiError<TBuilder>(this TBuilder builder, params int[] statusCodes)
+        where TBuilder : IEndpointConventionBuilder
     {
         foreach (var statusCode in statusCodes)
         {
-            builder.Produces<ApiResult>(statusCode);
+            builder.WithMetadata(new ProducesResponseTypeMetadata(statusCode, typeof(ApiResult), ["application/json"]));
         }
 
         return builder;
