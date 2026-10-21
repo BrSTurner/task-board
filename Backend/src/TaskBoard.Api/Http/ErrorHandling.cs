@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using TaskBoard.Domain.Exceptions;
 
 namespace TaskBoard.Api.Http;
 
@@ -49,7 +50,9 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
             BadHttpRequestException bad => (bad.StatusCode, bad.StatusCode == StatusCodes.Status400BadRequest
                 ? new ApiError { Code = "BadRequest", Message = "The request body is malformed or contains invalid values." }
                 : ErrorHandling.ForStatus(bad.StatusCode)),
-            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, ErrorHandling.ForStatus(StatusCodes.Status401Unauthorized)),
+            // Validators should catch bad input first; this is defense in depth for entity invariants.
+            DomainException domain => (StatusCodes.Status400BadRequest, new ApiError { Code = "DomainRule", Message = domain.Message }),
+            UnauthorizedAccessException =>(StatusCodes.Status401Unauthorized, ErrorHandling.ForStatus(StatusCodes.Status401Unauthorized)),
             _ => (StatusCodes.Status500InternalServerError, ErrorHandling.ForStatus(StatusCodes.Status500InternalServerError)),
         };
 
