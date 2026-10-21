@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskBoard.Domain.Entities;
+using TaskBoard.Infrastructure.Persistence.Seeding;
 
 namespace TaskBoard.Infrastructure.Persistence.Configurations;
 
@@ -20,5 +21,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         // Emails are stored normalized (lower-case), so a plain unique index is case-insensitive in practice.
         builder.HasIndex(u => u.Email).IsUnique();
+
+        builder.HasData(SeedData.Users);
     }
 }

@@ -49,8 +49,8 @@ public sealed class TaskRepositoryTests : IDisposable
     [Fact]
     public async Task Queries_are_scoped_to_the_owner()
     {
-        var alice = await AddUserAsync("alice@example.test");
-        var bob = await AddUserAsync("bob@example.test");
+        var alice = await AddUserAsync("alice.repo@example.test");
+        var bob = await AddUserAsync("bob.repo@example.test");
         var bobsTask = await AddTaskAsync(bob, "Bob only");
         await AddTaskAsync(alice, "Alice only");
 

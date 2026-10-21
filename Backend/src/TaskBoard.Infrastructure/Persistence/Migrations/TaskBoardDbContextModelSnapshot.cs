@@ -47,6 +47,102 @@ namespace TaskBoard.Infrastructure.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("TaskItems", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000001"),
+                            Description = "Review Clean Architecture",
+                            DueDateUtc = new DateTime(2026, 10, 21, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "Todo",
+                            Title = "Prepare technical interview",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000002"),
+                            Description = "Intermittent timeout on CI.",
+                            DueDateUtc = new DateTime(2026, 10, 14, 13, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "InProgress",
+                            Title = "Fix flaky login test",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000003"),
+                            Description = "Describe the auth and tasks endpoints.",
+                            DueDateUtc = new DateTime(2026, 10, 18, 20, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "InProgress",
+                            Title = "Write API documentation",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000004"),
+                            DueDateUtc = new DateTime(2026, 10, 10, 12, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "Todo",
+                            Title = "Renew passport",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000005"),
+                            Description = "September travel expenses.",
+                            DueDateUtc = new DateTime(2026, 10, 5, 21, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "Done",
+                            Title = "Submit expense report",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000006"),
+                            DueDateUtc = new DateTime(2026, 11, 20, 17, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "InProgress",
+                            Title = "Refactor task board styles",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000007"),
+                            DueDateUtc = new DateTime(2026, 12, 3, 12, 30, 0, 0, DateTimeKind.Utc),
+                            Status = "Todo",
+                            Title = "Book dentist appointment",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("a11ce000-7a5c-7000-8000-000000000008"),
+                            Description = "Draft goals and milestones for next quarter.",
+                            DueDateUtc = new DateTime(2027, 1, 15, 13, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "Todo",
+                            Title = "Plan Q1 roadmap",
+                            UserId = new Guid("a11ce000-0000-7000-8000-000000000001")
+                        },
+                        new
+                        {
+                            Id = new Guid("b0b00000-7a5c-7000-8000-000000000001"),
+                            DueDateUtc = new DateTime(2026, 10, 20, 1, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "InProgress",
+                            Title = "Review pull requests",
+                            UserId = new Guid("b0b00000-0000-7000-8000-000000000002")
+                        },
+                        new
+                        {
+                            Id = new Guid("b0b00000-7a5c-7000-8000-000000000002"),
+                            Description = "Slides and a short live demo.",
+                            DueDateUtc = new DateTime(2026, 11, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "Todo",
+                            Title = "Prepare sprint demo",
+                            UserId = new Guid("b0b00000-0000-7000-8000-000000000002")
+                        },
+                        new
+                        {
+                            Id = new Guid("b0b00000-7a5c-7000-8000-000000000003"),
+                            DueDateUtc = new DateTime(2026, 10, 15, 8, 0, 0, 0, DateTimeKind.Utc),
+                            Status = "Done",
+                            Title = "Update team wiki",
+                            UserId = new Guid("b0b00000-0000-7000-8000-000000000002")
+                        });
                 });
 
             modelBuilder.Entity("TaskBoard.Domain.Entities.User", b =>
@@ -79,6 +175,24 @@ namespace TaskBoard.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a11ce000-0000-7000-8000-000000000001"),
+                            Email = "demo@example.test",
+                            Name = "Alice Martins",
+                            PasswordHash = "AQAAAAIAAYagAAAAECuoL6m7HNzz0v7D5ihyiEnloVLgSf0Q11bu2OECMqfsdKZybfgw4KUYjkAGF2DEpw==",
+                            TimeZone = "America/Sao_Paulo"
+                        },
+                        new
+                        {
+                            Id = new Guid("b0b00000-0000-7000-8000-000000000002"),
+                            Email = "bob@example.test",
+                            Name = "Bob Tanaka",
+                            PasswordHash = "AQAAAAIAAYagAAAAECuoL6m7HNzz0v7D5ihyiEnloVLgSf0Q11bu2OECMqfsdKZybfgw4KUYjkAGF2DEpw==",
+                            TimeZone = "Asia/Tokyo"
+                        });
                 });
 
             modelBuilder.Entity("TaskBoard.Domain.Entities.TaskItem", b =>

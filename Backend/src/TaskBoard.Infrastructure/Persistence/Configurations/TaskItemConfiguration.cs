@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskBoard.Domain.Entities;
+using TaskBoard.Infrastructure.Persistence.Seeding;
 
 namespace TaskBoard.Infrastructure.Persistence.Configurations;
 
@@ -26,5 +27,7 @@ internal sealed class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(t => t.UserId);
+
+        builder.HasData(SeedData.Tasks);
     }
 }
