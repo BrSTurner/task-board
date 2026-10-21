@@ -20,6 +20,7 @@ public static class DependencyInjection
 
         services.AddDbContext<TaskBoardDbContext>(options => options.UseSqlite(connectionString));
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddSingleton<IPasswordService, PasswordService>();
 
         services.AddOptions<JwtOptions>().Bind(configuration.GetSection(JwtOptions.SectionName)).ValidateOnStart();
