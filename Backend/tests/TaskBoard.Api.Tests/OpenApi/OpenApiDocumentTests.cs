@@ -41,6 +41,36 @@ public sealed class OpenApiDocumentTests(TaskBoardApiFactory factory)
         Assert.False(ping.TryGetProperty("security", out _));
     }
 
+    [Theory]
+    [InlineData("/api/tasks", "get")]
+    [InlineData("/api/tasks", "post")]
+    [InlineData("/api/tasks/{id}", "put")]
+    [InlineData("/api/tasks/{id}/status", "patch")]
+    [InlineData("/api/tasks/{id}", "delete")]
+    [InlineData("/api/auth/me", "get")]
+    public async Task Protected_operations_declare_the_bearer_requirement(string path, string method)
+    {
+        using var doc = await GetDocumentAsync();
+
+        var operation = doc.RootElement.GetProperty("paths").GetProperty(path).GetProperty(method);
+
+        Assert.True(operation.GetProperty("security")[0].TryGetProperty("Bearer", out _));
+    }
+
+    [Fact]
+    public async Task Task_contract_uses_string_statuses_and_required_response_fields()
+    {
+        using var doc = await GetDocumentAsync();
+        var schemas = doc.RootElement.GetProperty("components").GetProperty("schemas");
+
+        var statuses = schemas.GetProperty("TaskItemStatus").GetProperty("enum").EnumerateArray().Select(e => e.GetString()!).ToArray();
+        var required = schemas.GetProperty("TaskDto").GetProperty("required").EnumerateArray().Select(e => e.GetString()!).ToArray();
+
+        Assert.Equal(["todo", "inProgress", "done"], statuses);
+        Assert.Equal(["id", "title", "description", "status", "dueDateUtc", "dueDateLocal", "isOverdue"], required);
+        Assert.True(doc.RootElement.GetProperty("paths").GetProperty("/api/tasks/{id}").GetProperty("delete").GetProperty("responses").TryGetProperty("204", out _));
+    }
+
     [Fact]
     public async Task Request_contract_marks_register_fields_as_required()
     {
