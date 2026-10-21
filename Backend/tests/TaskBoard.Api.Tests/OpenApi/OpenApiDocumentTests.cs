@@ -40,4 +40,16 @@ public sealed class OpenApiDocumentTests(TaskBoardApiFactory factory)
         var ping = doc.RootElement.GetProperty("paths").GetProperty("/api/public/ping").GetProperty("get");
         Assert.False(ping.TryGetProperty("security", out _));
     }
+
+    [Fact]
+    public async Task Request_contract_marks_register_fields_as_required()
+    {
+        using var doc = await GetDocumentAsync();
+
+        var required = doc.RootElement.GetProperty("components").GetProperty("schemas")
+            .GetProperty("RegisterUserRequest").GetProperty("required")
+            .EnumerateArray().Select(e => e.GetString()!).ToArray();
+
+        Assert.Equal(["name", "email", "timeZone", "password"], required);
+    }
 }

@@ -11,13 +11,13 @@ public sealed class RegisterUser(IUserRepository users, IPasswordService passwor
 
     public async Task<Result<UserDto>> ExecuteAsync(RegisterUserRequest request, CancellationToken cancellationToken)
     {
-        var email = User.NormalizeEmail(request.Email!);
+        var email = User.NormalizeEmail(request.Email);
         if (await users.GetByEmailAsync(email, cancellationToken) is not null)
         {
             return EmailTaken;
         }
 
-        var user = User.Create(request.Name!, email, request.TimeZone!, passwords.Hash(request.Password!));
+        var user = User.Create(request.Name, email, request.TimeZone, passwords.Hash(request.Password));
 
         // The pre-check above is only a fast path; the unique index is what guarantees uniqueness
         // when two registrations race.

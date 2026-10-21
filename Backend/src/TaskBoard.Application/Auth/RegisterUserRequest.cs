@@ -1,19 +1,29 @@
+using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using TaskBoard.Application.Common;
 using TaskBoard.Domain.Entities;
 
 namespace TaskBoard.Application.Auth;
 
+/// <remarks>
+/// <c>[Required]</c> only documents the OpenAPI contract (minimal API DataAnnotations validation is not enabled);
+/// FluentValidation enforces the rules and produces the user-facing messages. Missing JSON properties bind to
+/// empty strings so they fail with "… is required" instead of a generic binding error.
+/// </remarks>
 public sealed class RegisterUserRequest
 {
-    public string? Name { get; init; }
+    [Required]
+    public string Name { get; init; } = string.Empty;
 
-    public string? Email { get; init; }
+    [Required]
+    public string Email { get; init; } = string.Empty;
 
     /// <summary>IANA timezone id, e.g. <c>America/Sao_Paulo</c>.</summary>
-    public string? TimeZone { get; init; }
+    [Required]
+    public string TimeZone { get; init; } = string.Empty;
 
-    public string? Password { get; init; }
+    [Required]
+    public string Password { get; init; } = string.Empty;
 }
 
 public sealed class RegisterUserRequestValidator : AbstractValidator<RegisterUserRequest>

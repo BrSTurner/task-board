@@ -56,6 +56,19 @@ public sealed class RegisterEndpointTests(TaskBoardApiFactory factory) : IClassF
     }
 
     [Fact]
+    public async Task Missing_properties_report_required_messages_instead_of_binding_errors()
+    {
+        var response = await _client.PostJsonAsync("/api/auth/register", new { });
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var errors = (await response.ReadErrorAsync()).GetProperty("validationErrors");
+        Assert.Equal("Name is required", errors.GetProperty("name")[0].GetString());
+        Assert.Equal("Email is required", errors.GetProperty("email")[0].GetString());
+        Assert.Equal("Time zone is required", errors.GetProperty("timeZone")[0].GetString());
+        Assert.Equal("Password is required", errors.GetProperty("password")[0].GetString());
+    }
+
+    [Fact]
     public async Task Malformed_json_returns_400_envelope()
     {
         var content = new StringContent("{ \"name\": ", Encoding.UTF8, "application/json");

@@ -11,7 +11,7 @@ public sealed class RegisterUserRequestValidatorTests
         string? email = "alice@example.test",
         string? timeZone = "America/Sao_Paulo",
         string? password = "DemoPass123!") =>
-        new() { Name = name, Email = email, TimeZone = timeZone, Password = password };
+        new() { Name = name!, Email = email!, TimeZone = timeZone!, Password = password! };
 
     [Fact]
     public void Valid_request_passes()
