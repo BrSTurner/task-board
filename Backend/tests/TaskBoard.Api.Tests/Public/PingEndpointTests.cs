@@ -1,11 +1,10 @@
 using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace TaskBoard.Api.Tests.Public;
 
-public sealed class PingEndpointTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class PingEndpointTests(TaskBoardApiFactory factory)
+    : IClassFixture<TaskBoardApiFactory>
 {
     [Fact]
     public async Task Ping_is_anonymous_and_returns_success_envelope()

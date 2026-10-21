@@ -2,13 +2,12 @@ using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace TaskBoard.Api.Tests.Errors;
 
-public sealed class ErrorEnvelopeTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class ErrorEnvelopeTests(TaskBoardApiFactory factory)
+    : IClassFixture<TaskBoardApiFactory>
 {
     [Fact]
     public async Task Unknown_route_returns_404_envelope()

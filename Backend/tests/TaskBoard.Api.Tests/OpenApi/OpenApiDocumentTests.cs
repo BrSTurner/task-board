@@ -1,11 +1,10 @@
 using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace TaskBoard.Api.Tests.OpenApi;
 
-public sealed class OpenApiDocumentTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class OpenApiDocumentTests(TaskBoardApiFactory factory)
+    : IClassFixture<TaskBoardApiFactory>
 {
     private async Task<JsonDocument> GetDocumentAsync()
     {
