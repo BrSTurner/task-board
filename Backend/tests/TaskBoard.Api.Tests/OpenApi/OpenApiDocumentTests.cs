@@ -71,6 +71,19 @@ public sealed class OpenApiDocumentTests(TaskBoardApiFactory factory)
         Assert.True(doc.RootElement.GetProperty("paths").GetProperty("/api/tasks/{id}").GetProperty("delete").GetProperty("responses").TryGetProperty("204", out _));
     }
 
+    [Theory]
+    [InlineData("TaskDto")]
+    [InlineData("CreateTaskRequest")]
+    [InlineData("ApiResult")]
+    public async Task Dto_schemas_forbid_additional_properties_so_generated_clients_are_strict(string schema)
+    {
+        using var doc = await GetDocumentAsync();
+
+        var additional = doc.RootElement.GetProperty("components").GetProperty("schemas").GetProperty(schema).GetProperty("additionalProperties");
+
+        Assert.Equal(JsonValueKind.False, additional.ValueKind);
+    }
+
     [Fact]
     public async Task Request_contract_marks_register_fields_as_required()
     {
