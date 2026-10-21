@@ -1,0 +1,94 @@
+### TaskBoard API — runnable requests (Visual Studio, VS Code REST Client, Rider).
+### Start the API first: dotnet run --project src/TaskBoard.Api  (http://localhost:5080)
+
+@baseUrl = http://localhost:5080
+
+### Anonymous endpoint (no token needed)
+GET {{baseUrl}}/api/public/ping
+
+### Protected endpoint without a token → 401 with the ApiResult envelope
+GET {{baseUrl}}/api/tasks
+
+### Log in as the seeded demo user (copy data.accessToken into @token below)
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@example.test",
+  "password": "DemoPass123!"
+}
+
+###
+@token = {{login.response.body.$.data.accessToken}}
+
+### Current user
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### My tasks (overdue first; dueDateLocal is in America/Sao_Paulo for the demo user)
+GET {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+
+### Create a task — dueDate is local wall-clock time in the user's timezone (no offset)
+# @name create
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Prepare technical interview",
+  "description": "Review Clean Architecture",
+  "dueDate": "2026-10-21T15:00"
+}
+
+###
+@taskId = {{create.response.body.$.data.id}}
+
+### Validation errors → 400 with validationErrors
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "",
+  "dueDate": "2026-10-21T15:00:00Z"
+}
+
+### Move to another Kanban column
+PATCH {{baseUrl}}/api/tasks/{{taskId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "status": "done" }
+
+### Full update
+PUT {{baseUrl}}/api/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Prepare technical interview (updated)",
+  "description": null,
+  "dueDate": "2026-10-22T10:00",
+  "status": "inProgress"
+}
+
+### Delete → 204 No Content
+DELETE {{baseUrl}}/api/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+### Another user's task (Bob's) → 404, never 403, to avoid id enumeration
+GET {{baseUrl}}/api/tasks/b0b00000-7a5c-7000-8000-000000000001
+Authorization: Bearer {{token}}
+
+### Register (does not sign in)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Carol Smith",
+  "email": "carol@example.test",
+  "timeZone": "Europe/London",
+  "password": "CarolPass123!"
+}
