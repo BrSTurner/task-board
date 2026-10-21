@@ -33,6 +33,18 @@ public static class OpenApiConfiguration
                 return Task.CompletedTask;
             });
 
+            // DTOs are closed shapes. Without this, NSwag adds "[key: string]: any" to every TypeScript interface,
+            // which hides typos in property names.
+            options.AddSchemaTransformer((schema, _, _) =>
+            {
+                if (schema.Properties is { Count: > 0 } && schema.AdditionalProperties is null)
+                {
+                    schema.AdditionalPropertiesAllowed = false;
+                }
+
+                return Task.CompletedTask;
+            });
+
             // Only endpoints that actually require authorization get a security requirement.
             options.AddOperationTransformer((operation, context, _) =>
             {
