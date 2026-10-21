@@ -46,7 +46,7 @@ function titleFor(status: number): string {
     case 400:
       return 'Please check your input';
     case 401:
-      return 'Not signed in';
+      return 'Sign-in failed'; // protected calls are handled separately as "Session expired"
     case 404:
       return 'Not found';
     case 409:

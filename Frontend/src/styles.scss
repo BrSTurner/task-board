@@ -16,8 +16,27 @@ body {
   max-width: 28rem;
 }
 
-/* CDK dialogs rendered with Bootstrap modal markup (.modal-content inside the CDK panel). */
+/*
+ * CDK dialogs rendered with Bootstrap modal markup (.modal-content inside the CDK panel).
+ * Bootstrap 5.3 defines the --bs-modal-* variables on the .modal wrapper, which is not used here (the CDK
+ * overlay replaces it), so the same variables are declared on the panel.
+ */
 .tb-dialog-panel {
+  --bs-modal-padding: 1rem;
+  --bs-modal-color: var(--bs-body-color);
+  --bs-modal-bg: var(--bs-body-bg);
+  --bs-modal-border-color: var(--bs-border-color-translucent);
+  --bs-modal-border-width: var(--bs-border-width);
+  --bs-modal-border-radius: var(--bs-border-radius-lg);
+  --bs-modal-inner-border-radius: calc(var(--bs-border-radius-lg) - var(--bs-border-width));
+  --bs-modal-header-padding: 1rem 1rem;
+  --bs-modal-header-border-color: var(--bs-border-color);
+  --bs-modal-header-border-width: var(--bs-border-width);
+  --bs-modal-title-line-height: 1.5;
+  --bs-modal-footer-gap: 0.5rem;
+  --bs-modal-footer-border-color: var(--bs-border-color);
+  --bs-modal-footer-border-width: var(--bs-border-width);
+
   width: min(36rem, calc(100vw - 2rem));
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
