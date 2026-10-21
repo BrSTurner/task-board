@@ -1,0 +1,33 @@
+.task-column {
+  display: flex;
+  flex-direction: column;
+  background: var(--bs-secondary-bg);
+  border-radius: var(--bs-border-radius-lg);
+}
+
+.task-column__header {
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.task-column__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  // An empty drop list must keep a height or it cannot receive drops.
+  min-height: 8rem;
+}
+
+.task-column__placeholder {
+  min-height: 4rem;
+  border: 2px dashed var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background: var(--bs-tertiary-bg);
+}
+
+.cdk-drop-list-receiving,
+.cdk-drop-list-dragging {
+  outline: 2px dashed var(--bs-primary-border-subtle);
+  outline-offset: -2px;
+  border-radius: var(--bs-border-radius);
+}

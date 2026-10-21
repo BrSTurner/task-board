@@ -1,0 +1,81 @@
+<main class="auth-page container py-5">
+  <div class="card auth-card shadow-sm border-0 mx-auto">
+    <div class="card-body p-4 p-md-5">
+      <h1 class="h3 mb-1 fw-semibold">Create account</h1>
+      <p class="text-body-secondary mb-4">Organize your tasks on a personal Kanban board.</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="mb-3">
+          <label for="register-name" class="form-label">Name</label>
+          <input id="register-name" type="text" class="form-control" formControlName="name" autocomplete="name"
+                 [class.is-invalid]="invalid('name')" [attr.aria-invalid]="invalid('name')"
+                 aria-describedby="register-name-error" />
+          @if (invalid('name')) {
+            <div id="register-name-error" class="invalid-feedback">{{ errorFor('name') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="register-email" class="form-label">Email</label>
+          <input id="register-email" type="email" class="form-control" formControlName="email" autocomplete="email"
+                 [class.is-invalid]="invalid('email')" [attr.aria-invalid]="invalid('email')"
+                 aria-describedby="register-email-error" />
+          @if (invalid('email')) {
+            <div id="register-email-error" class="invalid-feedback">{{ errorFor('email') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="register-timezone" class="form-label">Time zone</label>
+          <select id="register-timezone" class="form-select" formControlName="timeZone"
+                  [class.is-invalid]="invalid('timeZone')" [attr.aria-invalid]="invalid('timeZone')"
+                  aria-describedby="register-timezone-help register-timezone-error">
+            <option value="">Select your time zone…</option>
+            @for (zone of timeZones; track zone) {
+              <option [value]="zone">{{ zone }}</option>
+            }
+          </select>
+          <div id="register-timezone-help" class="form-text">Due dates are shown in this time zone.</div>
+          @if (invalid('timeZone')) {
+            <div id="register-timezone-error" class="invalid-feedback">{{ errorFor('timeZone') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="register-password" class="form-label">Password</label>
+          <input id="register-password" type="password" class="form-control" formControlName="password"
+                 autocomplete="new-password" [class.is-invalid]="invalid('password')"
+                 [attr.aria-invalid]="invalid('password')" aria-describedby="register-password-help register-password-error" />
+          <div id="register-password-help" class="form-text">
+            8–100 characters with upper- and lower-case letters, a digit and a symbol.
+          </div>
+          @if (invalid('password')) {
+            <div id="register-password-error" class="invalid-feedback">{{ errorFor('password') }}</div>
+          }
+        </div>
+
+        <div class="mb-4">
+          <label for="register-confirm" class="form-label">Confirm password</label>
+          <input id="register-confirm" type="password" class="form-control" formControlName="confirmPassword"
+                 autocomplete="new-password" [class.is-invalid]="invalid('confirmPassword')"
+                 [attr.aria-invalid]="invalid('confirmPassword')" aria-describedby="register-confirm-error" />
+          @if (invalid('confirmPassword')) {
+            <div id="register-confirm-error" class="invalid-feedback">{{ errorFor('confirmPassword') }}</div>
+          }
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="submitting()">
+          @if (submitting()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Creating account…
+          } @else {
+            Create account
+          }
+        </button>
+      </form>
+
+      <p class="text-center mt-4 mb-0">
+        Already registered? <a routerLink="/login">Sign in</a>
+      </p>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,21 @@
+<section class="task-column h-100" [attr.aria-labelledby]="'column-' + column().status">
+  <header class="task-column__header d-flex align-items-center justify-content-between px-3 py-2">
+    <h2 class="h6 mb-0 fw-semibold" [id]="'column-' + column().status">{{ column().title }}</h2>
+    <span class="badge rounded-pill text-bg-secondary" [attr.aria-label]="tasks().length + ' tasks'">{{ tasks().length }}</span>
+  </header>
+
+  <div class="task-column__list p-2" cdkDropList [cdkDropListData]="column().status" cdkDropListSortingDisabled
+       (cdkDropListDropped)="drop($event)" role="list" [attr.data-status]="column().status">
+    @for (task of tasks(); track task.id) {
+      <div class="task-column__item" role="listitem" cdkDrag [cdkDragData]="task" [cdkDragDisabled]="isPending()(task.id)"
+           [cdkDragStartDelay]="{ touch: 250, mouse: 0 }" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()">
+        <app-task-card [task]="task" [pending]="isPending()(task.id)"
+                       (opened)="open(task)" (deleteRequested)="deleteRequested.emit(task)"
+                       (statusChange)="moved.emit({ task, status: $event })" />
+        <div *cdkDragPlaceholder class="task-column__placeholder"></div>
+      </div>
+    } @empty {
+      <p class="task-column__empty text-body-secondary small text-center my-0 py-4">No tasks</p>
+    }
+  </div>
+</section>

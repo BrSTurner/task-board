@@ -705,91 +705,67 @@ export interface ApiError {
     code: string;
     message: string;
     validationErrors?: { [key: string]: string[]; } | null;
-
-    [key: string]: any;
 }
 
 export interface ApiResult {
     isSuccess: boolean;
     error?: ApiError | null;
-
-    [key: string]: any;
 }
 
 export interface ApiResultOfIReadOnlyListOfTaskDto {
     data?: TaskDto[] | null;
     isSuccess: boolean;
     error?: ApiError | null;
-
-    [key: string]: any;
 }
 
 export interface ApiResultOfLoginResponse {
     data?: LoginResponse | null;
     isSuccess: boolean;
     error?: ApiError | null;
-
-    [key: string]: any;
 }
 
 export interface ApiResultOfPingResponse {
     data?: PingResponse | null;
     isSuccess: boolean;
     error?: ApiError | null;
-
-    [key: string]: any;
 }
 
 export interface ApiResultOfTaskDto {
     data?: TaskDto | null;
     isSuccess: boolean;
     error?: ApiError | null;
-
-    [key: string]: any;
 }
 
 export interface ApiResultOfUserDto {
     data?: UserDto | null;
     isSuccess: boolean;
     error?: ApiError | null;
-
-    [key: string]: any;
 }
 
 export interface ChangeTaskStatusRequest {
     status: TaskItemStatus | null;
-
-    [key: string]: any;
 }
 
 export interface CreateTaskRequest {
     title: string;
     description?: string | null;
     dueDate: string | null;
-
-    [key: string]: any;
 }
 
 export interface LoginResponse {
     accessToken: string;
     expiresAt: string;
     user: UserDto;
-
-    [key: string]: any;
 }
 
 export interface LoginUserRequest {
     email: string;
     password: string;
-
-    [key: string]: any;
 }
 
 export interface PingResponse {
     status: string;
     serverTimeUtc: string;
-
-    [key: string]: any;
 }
 
 export interface RegisterUserRequest {
@@ -797,8 +773,6 @@ export interface RegisterUserRequest {
     email: string;
     timeZone: string;
     password: string;
-
-    [key: string]: any;
 }
 
 export interface TaskDto {
@@ -809,8 +783,6 @@ export interface TaskDto {
     dueDateUtc: string;
     dueDateLocal: string;
     isOverdue: boolean;
-
-    [key: string]: any;
 }
 
 export type TaskItemStatus = "todo" | "inProgress" | "done";
@@ -820,8 +792,6 @@ export interface UpdateTaskRequest {
     description?: string | null;
     dueDate: string | null;
     status: TaskItemStatus | null;
-
-    [key: string]: any;
 }
 
 export interface UserDto {
@@ -829,8 +799,6 @@ export interface UserDto {
     name: string;
     email: string;
     timeZone: string;
-
-    [key: string]: any;
 }
 
 export class ApiException extends Error {

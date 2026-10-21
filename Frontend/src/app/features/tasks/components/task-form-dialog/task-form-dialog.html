@@ -1,0 +1,77 @@
+<form class="modal-content" [formGroup]="form" (ngSubmit)="submit()" novalidate aria-labelledby="task-form-title">
+  <div class="modal-header">
+    <h2 class="modal-title h5" id="task-form-title">{{ isEdit ? 'Edit task' : 'New task' }}</h2>
+    <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="mb-3">
+      <label for="task-title" class="form-label">Title</label>
+      <input id="task-title" type="text" class="form-control" formControlName="title" cdkFocusInitial
+             [class.is-invalid]="invalid('title')" [attr.aria-invalid]="invalid('title')"
+             aria-describedby="task-title-count task-title-error" />
+      <div class="d-flex justify-content-between">
+        @if (invalid('title')) {
+          <div id="task-title-error" class="invalid-feedback d-block">{{ titleError() }}</div>
+        } @else {
+          <span></span>
+        }
+        <small id="task-title-count" class="form-text ms-2 text-nowrap" [class.text-danger]="titleLength().trim().length > titleMax">
+          {{ titleLength().trim().length }}/{{ titleMax }}
+        </small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="task-description" class="form-label">Description <span class="text-body-secondary">(optional)</span></label>
+      <textarea id="task-description" class="form-control" rows="4" formControlName="description"
+                [class.is-invalid]="invalid('description')" [attr.aria-invalid]="invalid('description')"
+                aria-describedby="task-description-count task-description-error"></textarea>
+      <div class="d-flex justify-content-between">
+        @if (invalid('description')) {
+          <div id="task-description-error" class="invalid-feedback d-block">Description must be at most {{ descriptionMax }} characters</div>
+        } @else {
+          <span></span>
+        }
+        <small id="task-description-count" class="form-text ms-2 text-nowrap"
+               [class.text-danger]="descriptionLength().trim().length > descriptionMax">
+          {{ descriptionLength().trim().length }}/{{ descriptionMax }}
+        </small>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12" [class.col-sm-7]="isEdit">
+        <label for="task-due" class="form-label">Due date <span class="text-body-secondary small">({{ data.timeZone }})</span></label>
+        <input id="task-due" type="datetime-local" class="form-control" formControlName="dueDate"
+               [class.is-invalid]="invalid('dueDate')" [attr.aria-invalid]="invalid('dueDate')"
+               aria-describedby="task-due-error" />
+        @if (invalid('dueDate')) {
+          <div id="task-due-error" class="invalid-feedback">Due date is required</div>
+        }
+      </div>
+
+      @if (isEdit) {
+        <div class="col-12 col-sm-5">
+          <label for="task-status" class="form-label">Status</label>
+          <select id="task-status" class="form-select" formControlName="status">
+            @for (column of statuses; track column.status) {
+              <option [value]="column.status">{{ column.title }}</option>
+            }
+          </select>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary" [disabled]="saving()">
+      @if (saving()) {
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Saving…
+      } @else {
+        {{ isEdit ? 'Save changes' : 'Create task' }}
+      }
+    </button>
+  </div>
+</form>

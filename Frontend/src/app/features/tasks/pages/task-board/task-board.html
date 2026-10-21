@@ -1,0 +1,53 @@
+<header class="navbar navbar-expand bg-body border-bottom shadow-sm sticky-top">
+  <div class="container-fluid flex-wrap gap-2">
+    <span class="navbar-brand fw-semibold d-flex align-items-center gap-2 me-auto">
+      <span class="brand-mark" aria-hidden="true"></span>TaskBoard
+    </span>
+    @if (auth.user(); as user) {
+      <div class="text-end lh-sm small d-none d-sm-block">
+        <div class="fw-semibold">{{ user.name }}</div>
+        <div class="text-body-secondary">{{ user.email }}</div>
+      </div>
+    }
+    <button type="button" class="btn btn-primary btn-sm" (click)="openCreate()">+ New task</button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="auth.logout()">Log out</button>
+  </div>
+</header>
+
+<main class="container-fluid py-3 px-3 px-lg-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-3">
+    <h1 class="h4 mb-0">My tasks</h1>
+    <small class="text-body-secondary">Times shown in <strong>{{ timeZone }}</strong></small>
+  </div>
+
+  <div class="visually-hidden" aria-live="polite">{{ announcement() }}</div>
+
+  @if (store.loading()) {
+    <div class="d-flex justify-content-center py-5" role="status">
+      <span class="spinner-border text-primary" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading tasks…</span>
+    </div>
+  } @else if (store.loadFailed()) {
+    <div class="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2" role="alert">
+      <span>Your tasks could not be loaded.</span>
+      <button type="button" class="btn btn-sm btn-outline-dark" (click)="reload()">Try again</button>
+    </div>
+  } @else {
+    @if (store.isEmpty()) {
+      <div class="empty-board text-center rounded-3 p-4 mb-3">
+        <h2 class="h5">Your board is empty</h2>
+        <p class="text-body-secondary mb-3">Create your first task to start tracking your work.</p>
+        <button type="button" class="btn btn-primary" (click)="openCreate()">Create your first task</button>
+      </div>
+    }
+
+    <div class="row g-3 board" cdkDropListGroup>
+      @for (column of columns; track column.status) {
+        <div class="col-12 col-md-4">
+          <app-task-column [column]="column" [tasks]="columnTasks(column.status)" [isPending]="isPending"
+                           (moved)="move($event)" (opened)="openEdit($event)" (deleteRequested)="confirmDelete($event)" />
+        </div>
+      }
+    </div>
+  }
+</main>
