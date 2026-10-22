@@ -1,4 +1,4 @@
-# TaskBoard
+# Task Board
 
 A personal Kanban task manager: a **.NET 10 Minimal API** (Clean Architecture, EF Core + SQLite, JWT, built test-first with xUnit) and an **Angular 21 LTS** SPA (signals, NSwag-generated clients, Bootstrap 5, CDK drag-and-drop).
 
@@ -6,6 +6,70 @@ A personal Kanban task manager: a **.NET 10 Minimal API** (Clean Architecture, E
 > Full acceptance criteria: [Documents/USER-STORY.md](Documents/USER-STORY.md).
 
 ![Board](docs/board.png)
+
+## Chat-GPT Prompt
+I asked Chat GPT to create 3 documents for me, USER-STORY.md, CLAUDE.md for Backend and Frontend based on the PDF document containing the requirements + Manual inputs
+
+```
+Write a CLAUDE.md for me, one for the backend and another one for frontend, use the document attached to understand about the project and also take note of my considerations.
+
+Highlight any inconsistence between the document and from what I'm asking.
+
+For Backend I would like to use:
+- .NET 10
+- Entity Framework Core
+- InMemory Database
+- Clean Architecture (Required for this test)
+- Concentrate domain rules on the entitites when applicable
+- Analyze the possibility of adding CQRS with MediatR framework
+- Apply SOLID principles
+- Apply Clean Code principles
+- Do not over engineer (KISS & YAGNI Principles)
+- Use abstractation to keep the layers independent
+- Use Repository pattern
+- We must use TDD during the development process, use xUnit for tests
+- It should be a REST API, we could use minimal APIs available in .NET
+- We have 2 modules, CRUD of Tasks and one for User Management
+- Make correct use of HTTP Verbs and return codes
+
+For Frontend:
+- Use Angular LTS
+- For design and styles use Bootstrap (Make sure it is responsive)
+- Make a great use of Signals for better UI performance
+- Use NSWAG to generate services proxies to map the backend endpoints
+- Pages to Create and Login users
+- A page similar to a Kaban board for the tasks with drag and drop
+
+```
+Full Chat: [Click Here](https://chatgpt.com/share/6ad95a49-0958-83e9-85bb-179b91e335cf) 
+
+## Claude Prompt
+With those 3 files in hand with the rules defined, I asked Claude to plan the development for with a few more techinal decisions by me.
+
+```
+We are going to build a .NET REST WebAPI (Minimal API) + Angular project to manage Tasks with User Creation and Authentication.
+
+Access @Backend/CLAUDE.md , @Frontend/CLAUDE.md  for Implementations rules.
+
+Access @Documents/USER-STORY.md to read the User Story.
+
+More details if necessary could also be found @"Documents/Net - BLA - Technical Interview Exercise - V6.pdf"  
+
+ Details that I would like to mention:
+
+- Create a seed for 2 users
+- I would like to reinforce that we are going to use Code First/EF Core with Migrations to create the database and seed the data.
+- Use FluentValidation to validate input data on the API
+- Never return entities to the frontend, convert to a DTO or similar Output object, you can use AutoMapper if necessary.
+- When a Task is overdue I would like to have a boolean Flag on the Output object that is going to the frontend called IsOverdue, to make it easier to handle 
+- Use Result pattern and show errors on a modal in the frontend, create a unique result class that goes to the frontend, it could contain properties like: IsSuccess, Error, Data...
+- Use ngx-toastr for success messages when a Task is created, deleted, updated
+- Users can drag and drop tasks among the columns, if they click on the task, open a modal for editing 
+- Look for gaps and edge cases 
+
+If you have any questions, don't hesitate to ask
+
+```
 
 ## Quick start
 
