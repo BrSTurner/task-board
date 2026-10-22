@@ -9,6 +9,8 @@ This document records:
 
 ## Prompt and planning
 
+The full session (prompts, replies, tool calls, clarifying questions and the approved plan) is exported in [docs/claude-code-session.md](../../docs/claude-code-session.md).
+
 The project owner's prompt, summarized:
 
 > Build a .NET Minimal API + Angular app to manage tasks with user registration and authentication. Follow the two CLAUDE.md files and the user story.
